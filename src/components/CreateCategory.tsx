@@ -25,11 +25,16 @@ function CreateCategory() {
       ) {
         setError(
           'category',
-          { message: 'A category is duplicated.' },
+          { message: 'A category is duplicated' },
           { shouldFocus: true }
         );
         return [...oldCategories];
       }
+      setError(
+        'category',
+        { message: 'A category makes completed' },
+        { shouldFocus: true }
+      );
       return [...oldCategories, category.toUpperCase()];
     });
     setValue('category', '');
@@ -49,8 +54,10 @@ function CreateCategory() {
           {...register('category', { required: 'Please write a category' })}
         />
       </FormControl>
-      {errors?.category?.message ? (
+      {errors?.category?.message?.endsWith('duplicated') ? (
         <Alert severity='error'>{errors?.category?.message}</Alert>
+      ) : errors?.category?.message ? (
+        <Alert severity='success'>{errors?.category?.message}</Alert>
       ) : null}
     </>
   );
